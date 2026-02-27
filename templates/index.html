@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>5-Dollar Lunch</title>
+
+    <style>
+       h1 {
+           color: blueviolet;
+           font-size: 60px;
+       }
+       input[type=text]{
+           width: 100%;
+           padding: 12px;
+           margin: 10px 0;
+           box-sizing: border-box;
+           border: 2px solid red;
+            border-radius: 8px;
+
+       }
+    </style>
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        // 1. once click on search grab budget val
+        function search(){
+            console.log("button is clicked");
+            var budget = $("#budget_input").val();
+            console.log("budget: "+budget);
+            //2. call backend server url to get results
+            $.ajax({
+                url: `/search/${encodeURIComponent(budget)}`,  // e.g. /search/500
+                method: "GET",
+                dataType: "json",  // expect JSON back (change if needed)
+                success: function (data) {
+                    console.log("Success:", data);
+                    // TODO: render results to page
+                    //3, render results
+                    $("#results_list").empty()
+                    for(var i = 0; i < data.length;i++){
+                        console.log("test :" + data[i].name)
+                        console.log("test :" + data[i].price)
+                        $("#results_list").append("<li>"
+                            + data[i].name + ": "
+                            +  data[i].price +
+                            "<img src='" + data[i].image_url +"'></img>"
+                            +"</li>");
+                    }
+
+                },
+                error: function (xhr, status, err) {
+                    console.error("Error:", status, err, xhr.responseText);
+                }
+            });
+        }
+
+
+    </script>
+</head>
+<head>
+<meta charset="UTF-8">
+<title>5 Dollar Lunch</title>
+
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #f4f6f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        width: 400px;
+        text-align: center;
+    }
+
+    h1 {
+        margin-bottom: 25px;
+        color: #333;
+        font-weight: 600;
+    }
+
+    .search-group {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 25px;
+    }
+
+    #budget_input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        transition: border 0.2s ease;
+    }
+
+    #budget_input:focus {
+        outline: none;
+        border-color: #007bff;
+    }
+
+    button {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 6px;
+        background-color: #007bff;
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    #results_list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: left;
+    }
+
+    #results_list li {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+    }
+
+    #results_list li:last-child {
+        border-bottom: none;
+    }
+</style>
+
+</head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5-Dollar Lunch</title>
+
+  <style>
+    :root{
+      --bg1:#f3f7ff;
+      --bg2:#f7f9fc;
+      --text:#0f172a;
+      --muted:#6b7280;
+      --blue:#2563eb;
+      --blue-hover:#1d4ed8;
+      --card:#ffffff;
+      --border:#e5e7eb;
+      --shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+      --shadow-soft: 0 6px 18px rgba(15, 23, 42, 0.06);
+      --radius: 16px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background: radial-gradient(1200px 600px at 20% 0%, var(--bg1) 0%, var(--bg2) 60%, #ffffff 100%);
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      padding: 48px 16px;
+    }
+
+    .page{
+      width: 100%;
+      max-width: 720px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap: 18px;
+    }
+
+    h1{
+      margin:0;
+      font-size: clamp(34px, 5vw, 52px);
+      line-height:1.05;
+      letter-spacing:-0.02em;
+      font-weight: 800;
+      text-align:center;
+    }
+    h1 .accent{
+      color: var(--blue);
+    }
+
+    .search-area{
+      width: 100%;
+      max-width: 520px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    #budget_input{
+      width: 100%;
+      padding: 16px 18px;
+      font-size: 18px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.9);
+      box-shadow: var(--shadow-soft);
+      outline: none;
+      transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+    }
+    #budget_input::placeholder{ color: var(--muted); }
+    #budget_input:focus{
+      border-color: rgba(37,99,235,0.45);
+      box-shadow: 0 0 0 6px rgba(37,99,235,0.12), var(--shadow-soft);
+      transform: translateY(-1px);
+    }
+
+    .btn{
+      appearance:none;
+      border:0;
+      cursor:pointer;
+      padding: 14px 26px;
+      border-radius: 14px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(180deg, var(--blue) 0%, #1f5fe0 100%);
+      box-shadow: 0 14px 30px rgba(37, 99, 235, 0.25);
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .btn:hover{
+      background: linear-gradient(180deg, var(--blue-hover) 0%, #1b49c6 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 18px 34px rgba(37, 99, 235, 0.28);
+    }
+    .btn:active{
+      transform: translateY(0px);
+      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.22);
+    }
+
+    /* Results list styled like cards */
+    #results_list{
+      width: 100%;
+      max-width: 520px;
+      list-style:none;
+      padding: 0;
+      margin: 26px 0 0 0;
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+    }
+
+    #results_list li{
+      background: var(--card);
+      border: 1px solid rgba(229,231,235,0.9);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      font-size: 20px;
+      font-weight: 600;
+      box-shadow: var(--shadow-soft);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+
+    #results_list li:hover{
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    /* Optional: a subtle divider line on very small screens */
+    @media (max-width: 420px){
+      #results_list li{ font-size: 18px; }
+    }
+    #results_list li img {
+    width: 70px;          /* fixed width */
+    height: 70px;         /* fixed height */
+    object-fit: cover;    /* crop instead of stretch */
+    border-radius: 12px;  /* rounded corners */
+    flex-shrink: 0;       /* prevent shrinking */
+    border: 1px solid #e5e7eb;
+}
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <h1>Welcome to <span class="accent">5-Dollar Lunch</span></h1>
+
+    <div class="search-area">
+      <input id="budget_input" type="text" placeholder="Enter budget (e.g., 10)" />
+      <button class="btn" onclick="search()">Search</button>
+    </div>
+
+    <ul id="results_list"></ul>
+  </div>
+
+  <!-- your scripts go here (jQuery + search() function) -->
+</body>
+</html>
